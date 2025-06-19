@@ -40,7 +40,7 @@ RUN composer install --optimize-autoloader --no-dev
 RUN npm install && npm run build
 
 # Dump de base de datos inicial
-COPY ./Database/dump-erp_crm.sql /docker-entrypoint-initdb.d/dump.sql
+COPY ./database/dump-erp_crm.sql /docker-entrypoint-initdb.d/dump.sql
 
 # Configuración inicial de permisos
 RUN chown -R www-data:www-data /var/www
