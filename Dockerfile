@@ -19,6 +19,9 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install
 # Instalar Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+RUN php artisan config:clear && php artisan cache:clear
+
+
 # PHP extensiones
 RUN docker-php-ext-install pdo pdo_mysql
 
