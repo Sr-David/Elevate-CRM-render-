@@ -247,6 +247,13 @@ CREATE TABLE `Projects` (
   CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`ClientID`) REFERENCES `Clients` (`idClient`),
   CONSTRAINT `projects_ibfk_2` FOREIGN KEY (`idEmpresa`) REFERENCES `UserAdministration` (`idEmpresa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+INSERT INTO UserAdministration(Name,Username,Password,Permissions) VALUES('ElevateCRM',"admin","admin","admin");
+INSERT INTO Users(Name,Username,Password,Permissions,idEmpresa) VALUES("David","admin","admin","admin",3);
+
+
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
