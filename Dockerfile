@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
     nginx \
     supervisor
 
-RUN apt-get install -y mysql-server
+RUN apt-get install -y mariadb-server
 
 # Instalar Node.js LTS
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
