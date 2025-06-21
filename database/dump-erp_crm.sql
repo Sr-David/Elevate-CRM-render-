@@ -249,6 +249,9 @@ CREATE TABLE `Projects` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
+CREATE USER IF NOT EXISTS 'user'@'localhost' IDENTIFIED BY '1234';
+GRANT ALL PRIVILEGES ON laravel.* TO 'user'@'localhost';
+
 INSERT INTO UserAdministration(Name,Username,Password,Permissions) VALUES('ElevateCRM',"admin","admin","admin");
 INSERT INTO Users(Name,Username,Password,Permissions,idEmpresa) VALUES("David","admin","admin","admin",3);
 
