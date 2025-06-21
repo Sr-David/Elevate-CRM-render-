@@ -10,17 +10,14 @@ RUN apt-get update && apt-get install -y \
     zip \
     git \
     nginx \
-    supervisor
-
-RUN apt-get install -y mariadb-server
+    supervisor \
+    mariadb-server
 
 # Instalar Node.js LTS
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
 
 # Instalar Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-
 
 # PHP extensiones
 RUN docker-php-ext-install pdo pdo_mysql
@@ -30,7 +27,7 @@ COPY docker/php.ini /usr/local/etc/php/conf.d/
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 
 # Supervisor config
-COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY docker/supervisord.conf /etc/supervisord.conf
 
 # Directorio de trabajo
 WORKDIR /var/www
@@ -45,16 +42,18 @@ RUN npm install && npm run build
 # Dump de base de datos inicial
 COPY ./database/dump-erp_crm.sql /var/www/dump.sql
 
-# Configuración inicial de permisos
+# Crear permisos iniciales
 RUN chown -R www-data:www-data /var/www
 
-# Exponer puertos
+# Exponer puertos (Nginx escucha en 10000)
 EXPOSE 10000
 
+# Crear directorio para mysqld socket
+RUN mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
 
+# Entrypoint script
 COPY ./docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-# Entrypoint script
-CMD ["/entrypoint.sh"]
 
-
+# Comando inicial: supervisord
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
