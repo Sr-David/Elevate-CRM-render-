@@ -21,8 +21,8 @@
 
 CREATE DATABASE IF NOT EXISTS laravel;
 USE laravel;
-CREATE USER IF NOT EXISTS 'user'@'localhost' IDENTIFIED BY '1234';
-GRANT ALL PRIVILEGES ON laravel.* TO 'user'@'localhost';
+CREATE USER IF NOT EXISTS 'user'@'%' IDENTIFIED BY '1234';
+GRANT ALL PRIVILEGES ON laravel.* TO 'user'@'%';
 
 
 DROP TABLE IF EXISTS `Clients`;
