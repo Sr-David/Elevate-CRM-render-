@@ -10,8 +10,9 @@ RUN apt-get update && apt-get install -y \
     zip \
     git \
     nginx \
-    default-mysql-server \
     supervisor
+
+RUN apt-get install -y mysql-server
 
 # Instalar Node.js LTS
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
@@ -42,7 +43,7 @@ RUN composer install --optimize-autoloader --no-dev
 RUN npm install && npm run build
 
 # Dump de base de datos inicial
-COPY ./database/dump-erp_crm.sql /docker-entrypoint-initdb.d/dump.sql
+COPY ./database/dump-erp_crm.sql /var/www/dump.sql
 
 # Configuración inicial de permisos
 RUN chown -R www-data:www-data /var/www
@@ -50,5 +51,10 @@ RUN chown -R www-data:www-data /var/www
 # Exponer puertos
 EXPOSE 10000
 
-# Comando inicial
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+
+COPY ./docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+# Entrypoint script
+CMD ["/entrypoint.sh"]
+
+
